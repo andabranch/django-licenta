@@ -1,0 +1,38 @@
+{% extends 'partials/base.html' %}
+{% block title %} Form {% endblock %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+  <div class="row mt-4 d-flex justify-content-center">
+    <div class="col-md-8 offset md-2">
+      <div class="card shadow">
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <input id="pred" class="btn btn-primary btn-large btn-start" type="submit" value="Predict">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br></br>
+<i id="heart" class="fas fa-heartbeat pulse fa-5x"></i></a>
+<style>
+
+  .card {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  #pred {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50px;
+    padding: 10px 20px;
+  }
+  #heart{
+    color: rgba(250, 255, 255, 0.3)
+  }
+</style>
+
+{% endblock %}

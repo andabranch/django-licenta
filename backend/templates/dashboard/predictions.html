@@ -1,0 +1,95 @@
+{% extends 'partials/base.html' %}
+{% block title %} Patients {% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center">All Patients</h2>
+  <div class="table-responsive mt-5">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Age</th>
+          <th scope="col">Polyuria</th>
+          <th scope="col">Hypotonic Urine</th>
+          <th scope="col">Thirst</th>
+          <th scope="col">Serum Osmolality</th>
+          <th scope="col">Serum Sodium</th>
+          <th scope="col">Diagnosis</th>
+        </tr>
+      </thead>
+      <tbody>
+  {% for data in predicted_diagnosis %}
+  <tr>
+    <td>{{ data.name }}</td>
+    <td>{{ data.age }}</td>
+    <td>{{ data.polyuria }}</td>
+    <td>{{ data.hypotonic_urine }}</td>
+    <td>{{ data.thirst }}</td>
+    <td>{{ data.serum_osmolality }}</td>
+    <td>{{ data.serum_sodium }}</td>
+    <td>{{ data.diagnosis }}</td>
+    <td id="crud">
+      <input type="checkbox" name="approve-check" class="approve-check"> Approved
+      <a href="{% url 'edit_patient' data.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+      <a href="{% url 'delete_patient' data.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this patient?');">Delete</a>
+      <a href="#" class="btn btn-primary btn-sm">Archive</a>
+
+    </td>
+  </tr>
+  {% endfor %}
+</tbody>
+    </table>
+  </div>
+</div>
+<div class="fixed-bottom d-flex justify-content-center">
+  <button type='button' class='btn btn-primary btn-large btn-start' onclick="window.location.href='/form/'">Add Patient</button>
+</div>
+
+<style>
+  .fixed-bottom button {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50px;
+    padding: 10px 20px;
+  }
+  .form-container {
+      text-align: center;
+      margin:25px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+  }
+  <style>
+    /* center the buttons in a line */
+    td {
+      display: flex;
+      justify-content: center;
+    }
+  
+    /* remove border from buttons */
+    .btn {
+      border: none;
+    }
+  
+    /* change button colors */
+    .btn-secondary {
+      background-color: lightblue;
+      color: white;
+    }
+  
+    .btn-danger {
+      background-color: pastelred;
+      color: white;
+    }
+  
+    .btn-primary {
+      background-color: lightgreen;
+      color: white;
+    }
+
+    #crud{
+      border:0px solid transparent
+    }
+  </style>
+</style>
+{% endblock %}
