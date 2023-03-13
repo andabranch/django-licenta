@@ -26,24 +26,39 @@
   </body>
   <style>
     /* Add your styles here */
-    body {
-      background-image: url("{% static 'img/bg.jpg' %}");
-      background-size: cover;
-      height: 100vh;
-      display: flex;
-      
-    }
-    .content {
-      text-align: center;
-      margin:50px;
-      margin-left:auto;
-      margin-right:auto;
-      width: 50%;
-    }
-    .navbar {
-      position: absolute;
-      width: 100%;
-      z-index: 1;
-    }
+    html {
+  background-image: url("{% static 'img/bg.jpg' %}");
+  background-size: cover;
+  height: 100%;
+}
+
+body {
+  background-image: url("{% static 'img/bg.jpg' %}");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.content {
+  text-align: center;
+  margin: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  flex: 1;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
   </style>
 </html>

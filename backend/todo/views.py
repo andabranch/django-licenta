@@ -3,6 +3,9 @@ from .forms import DataForm
 from .models import Data
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column
+from crispy_forms.bootstrap import FormActions
 
 def login_view(request):
     if request.method == "POST":
@@ -30,6 +33,9 @@ def form_view(request):
     else:
         form = DataForm()
     return render(request, 'dashboard/form.html', {'form': form})
+@login_required
+def definitions(request):
+    return redirect('definitions')
 
 @login_required
 def predictions(request):
