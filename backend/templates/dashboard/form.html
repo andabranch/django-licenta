@@ -10,7 +10,7 @@
           <form method="POST">
             {% csrf_token %}
             <div class="form-group text-center">
-              <label for="{{ form.name.id_for_label }}">Name</label>
+              <label for="{{ form.name.id_for_label }}" >Name</label>
               {{ form.name }}
             </div>
             <div class="form-group text-center">
@@ -39,7 +39,8 @@
               <label for="{{ form.serum_sodium.id_for_label }}">Serum sodium</label>
               {{ form.serum_sodium }}
             </div>
-            <input id="pred" class="btn btn-primary btn-large btn-start" type="submit" value="Predict">
+            <button type="submit" id="pred" class="btn btn-primary" name="predict" value="predict" {% if form.errors %}disabled{% endif %}>Predict</button>
+            <button type="submit" id="pred2" class="btn btn-primary" name="view-tree" value="view-tree" {% if form.errors %}disabled{% endif %}>Predict with Visualization</button>
           </form>
         </div>
       </div>
@@ -47,14 +48,16 @@
   </div>
 </div>
 <br></br>
-<i id="heart" class="fas fa-heartbeat pulse fa-5x"></i></a>
+<a href="{% url 'definitions'%}"><i id="heart" class="fas fa-heartbeat pulse fa-5x"></i></a>
 <br>
-<a class="btn" href="{% url 'definitions'%}">Definitions</a>
+<a class="btn" id="btn2"href="{% url 'definitions'%}">Definitions</a>
 
 <style>
+
+
 .card {
   background-color: rgba(36, 37, 39, 0.3);
-  margin-top: 0px;
+  margin-top: 50px;
   width: 100%;
   max-width: 600px;
   margin-left: auto;
@@ -62,19 +65,27 @@
 }
 .btn {
   margin-top: 10px;
-  color:aquamarine
+  color:aquamarine;
 }
-#pred {
+#btn2 {
+  color:rgb(0, 249, 166);
+  position: absolute;
+  top: 46%;
+  right: 0.5%;
+  transform: translateY(-50%);
+}
+
+#pred,#pred2 {
   background-color: transparent;
   border-radius: 50px;
   padding: 10px 20px;
   margin-top: 1.3rem;
   color: white;
-  border: 2px solid #03e9f4;
+  border: 1px solid #03e9f4;
   font-size: 20px
 }
 
-#pred:hover {
+#pred:hover, #pred2:hover {
   background: #03e9f4;
   color: #fff;
   border-radius: 50px;
@@ -85,10 +96,18 @@
 }
 
 #heart {
-  color: rgba(250, 255, 255, 0.3);
+  color:rgba(198, 208, 216, 0.3);
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+#heart:hover{
+  color:#214f6e
+  
 }
 #thirst {
-  margin-left: 53px;
+  margin-left: 0px;
 }
 .input-container {
   display: flex;
@@ -97,7 +116,7 @@
 }
 select#id_thirst {
   background-color: transparent;
-  border: 2px solid #03e9f4;
+  border: 1px solid #03e9f4;
   color: white;
 }
 
@@ -119,7 +138,7 @@ select#id_thirst:focus option {
 .input-container select {
   margin-left: 150px;
   background-color: transparent;
-  border: 2px solid #03e9f4;
+  border: 1px solid #03e9f4;
   color: white;
 }
 
@@ -138,14 +157,14 @@ input {
   background-color: transparent;
   color: white;
   border-radius: 25px;
-  border: 2px solid #03e9f4;
+  border: 1px solid #03e9f4;
   padding-left: 10px;
   padding-top: 3px;
   padding-bottom: 3px;
 }
 input:hover, select:hover {
   border-color: transparent;
-  box-shadow: 0 0 0 5px #03e9f4;
+  box-shadow: 0 0 0 3px #03e9f4;
 }
 
 </style>

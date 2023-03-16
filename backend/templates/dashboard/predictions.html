@@ -16,29 +16,33 @@
           <th scope="col">Serum Osmolality</th>
           <th scope="col">Serum Sodium</th>
           <th scope="col">Diagnosis</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
-  {% for data in predicted_diagnosis %}
-  <tr>
-    <td>{{ data.name }}</td>
-    <td>{{ data.age }}</td>
-    <td>{{ data.polyuria }}</td>
-    <td>{{ data.hypotonic_urine }}</td>
-    <td>{{ data.thirst }}</td>
-    <td>{{ data.serum_osmolality }}</td>
-    <td>{{ data.serum_sodium }}</td>
-    <td>{{ data.diagnosis }}</td>
-    <td id="crud">
-      <input type="checkbox" name="approve-check" class="approve-check"> Approved
-      <a href="{% url 'edit_patient' data.pk %}" class="btn btn-secondary btn-sm">Edit</a>
-      <a href="{% url 'delete_patient' data.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this patient?');">Delete</a>
-      <a href="#" class="btn btn-primary btn-sm">Archive</a>
-
-    </td>
-  </tr>
-  {% endfor %}
-</tbody>
+        {% for data in predicted_diagnosis %}
+        <tr>
+          <td>{{ data.name }}</td>
+          <td>{{ data.age }}</td>
+          <td>{{ data.polyuria }}</td>
+          <td>{{ data.hypotonic_urine }}</td>
+          <td>{{ data.thirst }}</td>
+          <td>{{ data.serum_osmolality }}</td>
+          <td>{{ data.serum_sodium }}</td>
+          <td>{{ data.diagnosis }}</td>
+          <td>
+            <div class="d-flex justify-content-center">
+              <div class="btn-group" role="group" aria-label="Patient actions">
+                <input type="checkbox" name="approve-check" class="approve-check mr-2"> Approved
+                <a href="{% url 'edit_patient' data.pk %}" class="btn btn-secondary btn-sm mr-2">Edit</a>
+                <a href="{% url 'delete_patient' data.pk %}" class="btn btn-danger btn-sm mr-2" onclick="return confirm('Are you sure you want to delete this patient?');">Delete</a>
+                <a href="#" class="btn btn-primary btn-sm mr-2">Archive</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </div>
 </div>
@@ -48,9 +52,10 @@
 
 <style>
   .fixed-bottom button {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(14, 14, 74, 0.8);
     border-radius: 50px;
     padding: 10px 20px;
+    margin-bottom: 3px;
   }
   .form-container {
       text-align: center;
@@ -58,8 +63,7 @@
       margin-left: auto;
       margin-right: auto;
       width: 50%;
-  }
-  <style>
+    }
     /* center the buttons in a line */
     td {
       display: flex;
@@ -90,6 +94,18 @@
     #crud{
       border:0px solid transparent
     }
-  </style>
+    tbody {
+      margin-top: 100px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .table {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-gap: 20px;
+    }
+    thead{
+      background-color: black;
+    }
 </style>
 {% endblock %}

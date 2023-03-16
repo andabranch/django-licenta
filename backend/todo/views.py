@@ -26,24 +26,52 @@ def login_view(request):
 def form_view(request):
     if request.method == 'POST':
         form = DataForm(request.POST)
-        if form.is_valid():
-            # Perform the prediction and save the result to the database
-            data = form.save()
-            return redirect('dashboard-predictions')
+        if 'predict' in request.POST:
+            if form.is_valid():
+                # Perform the prediction and save the result to the database
+                data = form.save()
+                return redirect('dashboard-predictions')
+        elif 'view-tree' in request.POST:
+            if form.is_valid():
+                # Redirect to the view tree page
+                return redirect('dashboard-tree')
     else:
         form = DataForm()
     return render(request, 'dashboard/form.html', {'form': form})
+
 @login_required
 def definitions(request):
-    return redirect('definitions')
+    return render(request, 'dashboard/definition.html')
+
+from django.urls import reverse
+
+@login_required
+def tree_view(request):
+    if request.method == 'POST':
+        form = DataForm(request.POST)
+        if form.is_valid():
+            # Save the data
+            data = form.save()
+            # Redirect to the predictions page
+            return redirect('dashboard-predictions')
+    else:
+        form = DataForm()
+    return render(request, 'dashboard/tree.html', {'form': form})
+
+
 
 @login_required
 def predictions(request):
-    predicted_diagnosis = Data.objects.all()
+    patient_id = request.GET.get('patient_id')
+    if patient_id:
+        predicted_diagnosis = Data.objects.filter(pk=patient_id)
+    else:
+        predicted_diagnosis = Data.objects.all()
     context = {
         'predicted_diagnosis': predicted_diagnosis
     }
     return render(request, 'dashboard/predictions.html', context)
+
     
 @login_required
 def delete_patient(request, pk):
