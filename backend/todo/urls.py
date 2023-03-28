@@ -1,7 +1,7 @@
 from django.urls import path 
 from .import views 
 from django.contrib.auth import views as auth_views
-from .views import form_view, predictions, delete_patient, edit_patient,definitions, tree_view
+from .views import form_view, predictions, delete_patient, edit_patient,definitions, tree_view, add_file_view
 
 
 urlpatterns = [
@@ -11,6 +11,8 @@ urlpatterns = [
   path('delete_patient/<int:pk>', delete_patient, name='delete_patient'),
   path('edit_patient/<int:pk>', edit_patient, name='edit_patient'),
   path('definitions/', views.definitions, name="definitions"),
-  path('tree/', views.tree_view, name='dashboard-tree'), 
+  path('tree/', views.tree_view, name='dashboard-tree'),
+  path('add-file/', views.add_file_view, name='dashboard-add-file'),
+
 
 ]

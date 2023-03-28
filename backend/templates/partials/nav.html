@@ -9,8 +9,22 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
+        <li id='drop' class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Diabetes Insipidus
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'dashboard-index'%}">Diabetes Insipidus</a>
+            <a class="dropdown-item" href="#">Diabetes</a>
+          </div>
+        </li>
         <li class="nav-item">
-          <i class="fas fa-user-friends fa-lg" id="med"></i><a class="navbar-brand" href="{% url 'dashboard-predictions'%}">&nbsp All Patients</a>
+          <a class="nav-link" href="{% url 'dashboard-add-file' %}">
+            &nbsp Add Patients from File &nbsp</a>
+        </li>
+        <li class="nav-item">
+          <i class="fas fa-user-friends fa-lg" id="med"></i><a class="navbar-brand" href="{% url 'dashboard-predictions'%}">
+            &nbsp All Patients</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{%url 'login'%}">Logout</a>
@@ -19,6 +33,7 @@
     </div>
   </div>
 </nav>
+
 <script>
   $(function () {
   $(document).scroll(function () {
@@ -55,5 +70,7 @@
       transform: scale(1);
     }
   }
-
+ /* #drop {
+    margin-right: 500px;
+  }*/
 </style>

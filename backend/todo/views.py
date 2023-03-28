@@ -90,3 +90,38 @@ def edit_patient(request, pk):
     else:
         form = DataForm(instance=patient)
     return render(request, 'dashboard/edit_patient.html', {'form': form})
+
+@login_required
+def add_file_view(request):
+    if request.method == 'POST':
+        # Get the uploaded file from the request
+        uploaded_file = request.FILES['file']
+
+        # Parse the CSV data into a list of dictionaries
+        data = []
+        for line in uploaded_file:
+            line = line.decode('utf-8').strip()
+            if line:
+                fields = line.split(',')
+                patient = {
+                    'name': fields[0],
+                    'age': fields[1],
+                    'polyuria': fields[2],
+                    'hypotonic_urine': fields[3],
+                    'thirst': fields[4],
+                    'serum_osmolality': fields[5],
+                    'serum_sodium': fields[6],
+                }
+                data.append(patient)
+
+        # Save each patient to the database
+        for patient in data:
+            form = DataForm(data=patient)
+            if form.is_valid():
+                form.save()
+
+        # Redirect to the predictions page
+        return redirect('dashboard-predictions')
+
+    else:
+        return render(request, 'dashboard/add_file.html')
