@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 from crispy_forms.bootstrap import FormActions
+from .utils import get_decision_tree_data, get_decision_tree_model
+from django.urls import reverse
+
 
 def login_view(request):
     if request.method == "POST":
@@ -39,11 +42,6 @@ def form_view(request):
         form = DataForm()
     return render(request, 'dashboard/form.html', {'form': form})
 
-@login_required
-def definitions(request):
-    return render(request, 'dashboard/definition.html')
-
-from django.urls import reverse
 
 @login_required
 def tree_view(request):
@@ -52,11 +50,17 @@ def tree_view(request):
         if form.is_valid():
             # Save the data
             data = form.save()
-            # Redirect to the predictions page
-            return redirect('dashboard-predictions')
+            # Pass the data to the template
+            return render(request, 'dashboard/tree.html', {'form': form, 'data': data})
     else:
         form = DataForm()
     return render(request, 'dashboard/tree.html', {'form': form})
+
+
+@login_required
+def definitions(request):
+    return render(request, 'dashboard/definition.html')
+
 
 
 
@@ -125,3 +129,7 @@ def add_file_view(request):
 
     else:
         return render(request, 'dashboard/add_file.html')
+
+@login_required
+def diabetes(request):
+    return render(request, 'dashboard/diabetes.html')

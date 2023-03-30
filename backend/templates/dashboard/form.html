@@ -9,6 +9,7 @@
         <div class="card-body">
           <form method="POST">
             {% csrf_token %}
+            <h1>Diabetes Insipidus</h1>
             <div class="form-group text-center">
               <label for="{{ form.name.id_for_label }}" >Name</label>
               {{ form.name }}
@@ -50,7 +51,7 @@
 <br></br>
 <a href="{% url 'definitions'%}"><i id="heart" class="fas fa-heartbeat pulse fa-5x"></i></a>
 <br>
-<a class="btn" id="btn2" href="{% url 'definitions'%}">Definitions</a>
+<a class="btn" id="btn2" href="{% url 'definitions'%}">Rules</a>
 
 <style>
 
@@ -64,6 +65,11 @@
   margin-right: auto;
 }
 
+h1{
+  margin-bottom:20px;
+  color:rgba(106, 109, 116, 0.3)
+}
+
 .btn {
   margin-top: 10px;
   color:aquamarine;
@@ -73,7 +79,7 @@
   color:rgb(0, 249, 166);
   position: absolute;
   top: 46%;
-  right: 0.5%;
+  right: 2%;
   transform: translateY(-50%);
 }
 
