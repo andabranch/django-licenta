@@ -8,7 +8,9 @@ from crispy_forms.layout import Layout, Submit, Row, Column
 from crispy_forms.bootstrap import FormActions
 from .utils import get_decision_tree_data, get_decision_tree_model
 from django.urls import reverse
-
+from sklearn.tree import export_graphviz
+import graphviz
+import joblib
 
 def login_view(request):
     if request.method == "POST":
@@ -45,23 +47,37 @@ def form_view(request):
 
 @login_required
 def tree_view(request):
-    if request.method == 'POST':
-        form = DataForm(request.POST)
-        if form.is_valid():
-            # Save the data
-            data = form.save()
-            # Pass the data to the template
-            return render(request, 'dashboard/tree.html', {'form': form, 'data': data})
-    else:
-        form = DataForm()
-    return render(request, 'dashboard/tree.html', {'form': form})
+    # # Get all the patient data
+    # patient_data = Data.objects.all()
+    # # Load the decision tree model
+    # model = joblib.load('ml_model/di_recommender.joblib')
+    # # Get the feature names used in the decision tree model
+    # fn = model.fn
+    # # Get the class names used in the decision tree model
+    # cn = model.cn
 
+    # # Create a list of dictionaries containing the patient data and the diagnosis prediction
+    # patient_diagnoses = []
+    # for patient in patient_data:
+    #     # Convert the patient data to a list of features
+    #     patient_features = [getattr(patient, feature) for feature in fn]
+    #     # Make a prediction using the decision tree model
+    #     diagnosis = model.predict([patient_features])[0]
+    #     # Add the patient data and the diagnosis prediction to the list
+    #     patient_diagnoses.append({'patient': patient, 'diagnosis': diagnosis})
+
+    # # Generate the decision tree graph
+    # dot_data = export_graphviz(model, out_file=None, fn=fn, cn=cn, filled=True, rounded=True, special_characters=True)
+    # graph = graphviz.Source(dot_data)
+
+    # # Render the template with the patient diagnoses and the decision tree graph
+    # return render(request, 'dashboard/tree.html', {'patient_diagnoses': patient_diagnoses, 'graph': graph})
+
+    return render(request, 'dashboard/tree.html')
 
 @login_required
 def definitions(request):
     return render(request, 'dashboard/definition.html')
-
-
 
 
 @login_required
