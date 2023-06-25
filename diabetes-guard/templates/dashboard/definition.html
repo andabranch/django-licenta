@@ -1,0 +1,70 @@
+{% extends 'partials/base.html' %}
+{% block title %} Definitions {% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <h1>Diabetes Insipidus</h1>
+    <p class="mt-4" id="p1">Diabetes Insipidus (DI) is the most common complication of pituitary surgery. Although there is no consensus on its definition, polyuria is the most overt symptom of DI and can also reflect several physiological adaptive mechanisms in the postoperative phase.</p>
+    <div class="card shadow">
+    <h2 class="mt-5">Symptoms of DI:</h2>
+    <ul class="list-unstyled list pl-5">
+      <li class="mb-3 d-flex align-items-center"><i class="fa fa-flask mr-3"></i><b>Polyuria: </b>&nbspUrine production > 300 mL/hr for 2 consecutive hours</li>
+      <li class="mb-3 d-flex align-items-center"><i class="fa fa-solid fa-signal mr-3"></i><b>Hypotonic Urine: </b>&nbsp Urine specific gravity (USG) < 1.005</li>
+      <li class="mb-3 d-flex align-items-center"><i class="fa fa-solid fa-microscope mr-3"></i><b>Serum Osmolality: </b>&nbsp Serum osmolality > 300 mosmol/kg</li>
+      <li class="mb-3 d-flex align-items-center"><i class="fa fa-regular fa-calendar-plus mr-3"></i><b>Serum Sodium: </b>&nbsp Serum sodium > 145 mmol/L</li>
+      <li class="mb-3 d-flex align-items-center"><i class="fa fa-solid fa-water mr-3"></i><b>Excessive Thirst</b></li>
+    </ul>
+</div>
+
+    <br></br>
+    <p class="mt-4" id="p2">To improve reliability and comparability, the following definition for DI was used: polyuria (urine production > 300 ml/hour for 3 hours) accompanied by a urine specific gravity (USG) < 1.005 and at least one of the following symptoms: excessive thirst, serum osmolality > 300 mosmol/kg, or serum sodium > 145 mmol/L.</p>
+</div>
+
+<style>
+  h1 {
+    padding-top: 60px;
+    padding-bottom: 30px; 
+    color: white;
+    opacity: 0.7;
+  }
+
+  .card {
+    background-color: rgba(132, 192, 235 , 0.5);
+    margin-top: 50px;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 17px;
+    border-radius: 5px;
+  }
+
+  h2 {
+    margin-bottom: 50px;
+    color: white;
+  }
+
+  ul {
+    padding-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: white;
+    
+  }
+
+  #p1 {
+    color: white;
+    opacity: 0.9;
+    font-size: 18px;
+  }
+
+
+  #p2 {
+    color: white;
+    margin-top: 50px;
+    font-size: 18px;
+  }
+</style>
+{% endblock %}

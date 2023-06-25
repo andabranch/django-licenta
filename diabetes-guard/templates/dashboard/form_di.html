@@ -1,0 +1,207 @@
+{% extends 'partials/base.html' %}
+{% block title %} Form DI {% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row mt-4 d-flex justify-content-center">
+    <div class="col-md-8 offset md-2">
+      <div class="card shadow">
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            <h1>Diabetes Insipidus</h1>
+            <div class="form-group text-center">
+              <label for="{{ form.name.id_for_label }}" >Name</label>
+              {{ form.name }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.age.id_for_label }}">Age</label>
+              {{ form.age }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.polyuria.id_for_label }}">Polyuria</label>
+              {{ form.polyuria }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.hypotonic_urine.id_for_label }}">Hypotonic urine</label>
+              {{ form.hypotonic_urine }}
+            </div>
+            <div class="form-group text-center">
+              <div class="input-container">
+                <label for="id_thirst" id="thirst">Thirst</label>
+                {{ form.thirst }}
+              </div>
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.serum_osmolality.id_for_label }}">Serum osmolality</label>
+              {{ form.serum_osmolality }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.serum_sodium.id_for_label }}">Serum sodium</label>
+              {{ form.serum_sodium }}
+            </div>
+            
+            <button type="submit" id="pred" class="btn btn-primary" name="predict" value="predict" {% if form.errors %}disabled{% endif %}>Predict</button>
+            <button type="submit" id="pred2" class="btn btn-primary" name="view-tree" value="view-tree" {% if form.errors %}disabled{% endif %}>Predict with Visualization</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br></br>
+<a href="{% url 'definitions'%}"><i id="heart" class="fas fa-heartbeat pulse fa-5x"></i></a>
+<br>
+<a class="btn" id="btn2" href="{% url 'definitions'%}">Definitions</a>
+<style>
+
+
+.card {
+  background-color: RGBA(24,55,98,0.2);
+  margin-top: 50px;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+}
+
+
+h1{
+  margin-bottom:20px;
+  color: white;
+  opacity: 0.8;
+  padding-bottom:20px;
+}
+         
+
+.btn {
+  margin-top: 10px;
+  color:aquamarine;
+}
+
+#btn2 {
+  color:white;
+  position: absolute;
+  top: 46%;
+  right: 0.5%;
+  transform: translateY(-50%);
+}
+#btn2:hover {
+  color: #03e9f4; 
+}
+#pred,#pred2 {
+  background:  RGBA(72, 76, 90 ,0.3);
+  border-radius: 50px;
+  padding: 10px 20px;
+  margin-top: 1.3rem;
+  color: white;            
+  border: 2px solid #3C8CF9;
+  font-size: 20px
+}
+
+#pred:hover,
+#pred2:hover {
+  background: #3C8CF9;
+  padding: 10px 20px;
+  margin-top: 1.3rem;
+  color: #fff;
+  border-radius: 50px;
+  box-shadow: 0 0 5px #3C8CF9, 0 0 25px
+}
+
+#pred2{
+  margin-left: 7px;
+}
+
+
+{% comment %} #pred:hover, #pred2:hover {
+  background: #3488C5;
+  color: #fff;
+  border-radius: 50px;
+  box-shadow: 0 0 5px #3488C5,
+              0 0 25px #3488C5,
+              0 0 50px #3488C5,
+              0 0 100px #3488C5;
+} {% endcomment %}
+
+#heart {
+  color:white;
+  opacity: 0.7;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+#heart:hover{
+  color:#3C8CF9;
+  
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  width: 250px;
+}
+#thirst {
+  margin-left: 80px;
+}
+select#id_thirst {
+  background-color:RGBA(229, 232, 221,0.2) ;
+  border: 1px solid #3C8CF9;
+  color: white;
+}
+
+select#id_thirst option {
+  background-color: transparent;
+  color: white;
+}
+
+select#id_thirst:focus {
+  outline: none;
+  border-color: transparent;
+}
+
+select#id_thirst:focus option {
+  background-color:  #3C8CF9;
+  opacity: 0.1;
+  color: #fff;
+}
+
+.input-container select {
+  margin-left: 150px;
+  background-color: transparent;
+  border: 1px solid #0CE4B0;
+  color: white;
+}
+
+label {
+  display: inline-block;
+  text-align: left;
+  width: 150px;
+  color: white;
+  font-size: 19px
+
+}
+
+input {
+  display: inline-block;
+  margin: 0;
+  background-color: RGBA(229, 232, 221,0.2);
+  color: #F5F6F2;
+  border-radius: 25px;
+  border: 1px solid #3C8CF9;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+input:hover, select:hover {
+  border-color: #3C8CF9;
+  box-shadow: 0 0 5px #3C8CF9, 0 0 25px
+}
+
+</style>
+
+{% endblock %}

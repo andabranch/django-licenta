@@ -1,0 +1,113 @@
+{% extends 'partials/base.html' %}
+{% block title %} Edit Patient {% endblock %}
+
+{% block content %}
+<div class="container pt-5">
+    <div class="card shadow">
+  <h1>Edit Patient</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  div{
+    color: white;
+  }
+  .card {
+    background-color: RGBA(24,55,98,0.2);
+    margin-top: 50px;
+    width: 100%;
+
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+h1{
+  margin-bottom: 20px;
+  color: white;
+  padding: 20px;
+}
+
+
+input {
+  display: inline-block;
+  margin: 0;
+  background-color: RGBA(229, 232, 221,0.2);
+  color: white;
+  border-radius: 25px;
+  border: 1px solid #3C8CF9;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+
+label {
+  display: inline-block;
+  text-align: left;
+  width: 150px;
+  color: white;
+  font-size: 18px
+
+
+}
+
+input:hover, select:hover {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px #3C8CF9;
+}
+
+#thirst {
+  margin-left: 80px;
+}
+select#id_thirst {
+  background-color:RGBA(229, 232, 221,0.2) ;
+  border: 1px solid #3C8CF9;
+  color: white;
+}
+
+select#id_thirst option {
+  background-color: transparent;
+  color: white;
+}
+
+select#id_thirst:focus {
+  outline: none;
+  border-color: transparent;
+}
+
+select#id_thirst:focus option {
+  background-color:  #3C8CF9;
+  opacity: 0.1;
+  color: #fff;
+}
+
+
+button {
+  background:  RGBA(24,55,98,0.2);
+  border-radius: 50px;
+  padding: 10px 20px;
+  margin-top: 1.3rem;
+  margin-bottom: 30px;
+  color: white;            
+  border: 2px solid #3C8CF9;
+  font-size: 20px
+}
+
+button:hover {
+  background: #3C8CF9;
+  padding: 10px 20px;
+  margin-top: 1.3rem;
+  color: #fff;
+  border-radius: 50px;
+  box-shadow: 0 0 5px #3C8CF9, 0 0 25px
+}
+
+
+</style>
+{% endblock %}

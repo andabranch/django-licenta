@@ -1,0 +1,125 @@
+{% extends 'partials/base.html' %}
+{% block title %}Form Diabetes{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row mt-4 d-flex justify-content-center">
+    <div class="col-md-8 offset md-2">
+      <div class="card shadow">
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            <h1>Diabetes</h1>
+            <div class="form-group text-center">
+              <label for="{{ form.name.id_for_label }}">Name</label>
+              {{ form.name }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.pregnancies.id_for_label }}">Pregnancies</label>
+              {{ form.pregnancies }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.glucose.id_for_label }}">Glucose</label>
+              {{ form.glucose }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.blood_pressure.id_for_label }}">Blood Pressure</label>
+              {{ form.blood_pressure }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.skin_thickness.id_for_label }}">Skin Thickness</label>
+              {{ form.skin_thickness }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.insulin.id_for_label }}">Insulin</label>
+              {{ form.insulin }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.bmi.id_for_label }}">BMI</label>
+              {{ form.bmi }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.diabetes_pedigree_function.id_for_label }}">DPF</label>
+              {{ form.diabetes_pedigree_function }}
+            </div>
+            <div class="form-group text-center">
+              <label for="{{ form.age.id_for_label }}">Age</label>
+              {{ form.age }}
+            </div>
+            <button type="submit" id="pred" class="btn btn-primary" name="predict" value="predict" {% if form.errors %}disabled{% endif %}>Predict</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+.card {
+  background-color: RGBA(24,55,98,0.2);
+  margin-top: 50px;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: white;
+  padding-bottom: 20px;
+}
+
+input {
+  display: inline-block;
+  margin: 0;
+  background-color: RGBA(229, 232, 221,0.2);
+  color: white;
+  border-radius: 25px;
+  border: 1px solid #3C8CF9;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+label {
+  display: inline-block;
+  text-align: left;
+  width: 150px;
+  color: white;
+  font-size: 18px
+
+
+}
+
+input:hover, select:hover {
+  border-color: #3C8CF9;
+  box-shadow: 0 0 5px #3C8CF9, 0 0 25px
+}
+.btn {
+  margin-top: 10px;
+  color: aquamarine;
+}
+
+#pred,
+#pred2 {
+  background-color: RGBA(72, 76, 90 ,0.3);
+  border-radius: 50px;
+  padding: 10px 20px;
+  margin-top: 1.3rem;
+  color: white;
+  border: 2px solid #3C8CF9;
+  font-size: 20px;
+}
+
+#pred:hover,
+#pred2:hover {
+  background: #3C8CF9;
+  color: #fff;
+  border-radius: 50px;
+  box-shadow: 0 0 5px #3C8CF9, 0 0 25px
+}
+
+
+</style>
+{% endblock %}
