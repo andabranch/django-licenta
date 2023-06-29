@@ -32,10 +32,19 @@ The login page:
 
 ![image](https://user-images.githubusercontent.com/107280183/226926087-1230edf3-4f33-4297-a941-a59692aee238.png)
 
-The add patients page, where the patient's data gets inputed in order to get a prediction:
+The form page, where the patient's data gets inputed in order to get a prediction:
 
-![image](https://user-images.githubusercontent.com/107280183/226928856-4b8bad09-5eb8-40df-8d0d-24c8b1c16108.png)
+![image](https://github.com/raepmi/django-licenta/assets/107280183/c6211d36-9bbd-4050-ab26-1c465e437b67)
 
-This is the all patients page, where the user can delete, edit and archeive a pacient:
+This is the all active patients page, where the user can delete, edit and archeive a pacient:
 
-![image](https://user-images.githubusercontent.com/107280183/221356337-520829d2-25ab-4682-b076-acaf876d8a9b.png)
+![image](https://github.com/raepmi/django-licenta/assets/107280183/856423c1-b9ff-42c6-854c-02655b39db45)
+
+Archived Patients page:
+
+![image](https://github.com/raepmi/django-licenta/assets/107280183/4792d223-39ce-49ac-b2c4-5ed2d254f156)
+
+
+Image extraction page for blood tests:
+
+![image](https://github.com/raepmi/django-licenta/assets/107280183/914de9f1-29a7-4d8d-975b-63cb649a9622)
