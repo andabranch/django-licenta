@@ -23,7 +23,7 @@ class Data(models.Model):
 
 #override default save to database 
   def save(self, *args, **kwargs):
-    if not self.diagnosis:  # Only generate diagnosis if it's not already set
+    if not self.diagnosis:  
       model = joblib.load('ml_model/di_recommender.joblib')
       self.diagnosis = model.predict([[self.age, self.polyuria, self.hypotonic_urine, self.thirst, self.serum_osmolality, self.serum_sodium]])
     return super().save(*args, **kwargs)
@@ -51,7 +51,7 @@ class Diabetes(models.Model):
   archived = models.BooleanField(default=False)
 
 
-    # Override default save to database
+  #override default save to database
   def save(self, *args, **kwargs):
       if not self.outcome:
         model = joblib.load('ml_model/diabetes.joblib')
@@ -59,9 +59,9 @@ class Diabetes(models.Model):
             self.pregnancies, self.glucose, self.blood_pressure, self.skin_thickness,
             self.insulin, self.bmi, self.diabetes_pedigree_function, self.age
         ]
-        relevant_features = [feature_vector[2], feature_vector[6]]  # Select the relevant features for prediction
+        relevant_features = [feature_vector[2], feature_vector[6]]  #only relevant features for pred
         self.outcome = model.predict([relevant_features])
-        self.outcome = "Healthy" if self.outcome == 0 else "Diabetes"
+        self.outcome = "Healthy" if self.outcome[0] == "0" else "Diabetes"
       return super().save(*args, **kwargs)
 
 

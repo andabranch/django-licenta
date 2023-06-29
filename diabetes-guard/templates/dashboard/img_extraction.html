@@ -1,0 +1,141 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block title %}Image Extraction{% endblock %}
+
+{% block content %}
+
+    <div class="container px-5 py-24 mx-auto">
+        <div class="container pt-5">
+            <h1>Text Extractor</h1>
+            <p>Extract text from analysis</p>
+        </div>
+
+
+        <div class="container">
+            <div class="buttons">
+                <button id="upload-btn" onclick="document.getElementById('formFile').click()"
+                    class="custom-btn shadow-md mb-2" id="1">Upload Img
+                </button>
+                <form method="post" enctype="multipart/form-data" class="flex justify-center">
+                    {% csrf_token %}
+                    <input name="imagefile" re accept="image/*" type="file" id="formFile"
+                        style="display: none;">
+                    <button class="custom-btn shadow-md " disabled id="2">
+                        <select name="language" id="languages" class="bg-transparent">
+                            <option value="eng" selected>English</option>
+                        </select>
+                    </button>
+                    <button type="submit" class="custom-btn shadow-md" id="3">Scan </button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- uploaded image -->
+        {% if image %}
+        <div class="flex justify-center ease-out m-5 rounded-2xl duration-300 h-96">
+            <img class="justify-center rounded-2xl hover:scale-105 stroke-white stroke-2 duration-500"
+                src="data:image/png;base64, {{ image }}">
+        </div>
+        {% endif %}
+
+        <!-- OCR text -->
+        {% if ocr %}
+        <div class=" ease-out bg-white text-slate-800 rounded-2xl hover:shadow-lg p-6 mt-3 duration-300 w-auto">
+            <p id="ocrtext" class="text-lg mt-2  mb-8 text-center ">{{ ocr }}</p>
+            <button id="copybtn" onclick="copy()" class="button">Copy</button>
+            <button id="addbtn" onclick="addToTests()"> Add to tests</button>
+        </div>
+        {% endif %}
+
+        <!-- analysis/tests section -->
+        <div id="tests" class="container mt-5">
+            <div class="container pt-5">
+            <h2>Test Results</h2>
+            </div>
+            <button id="clearbtn" onclick="clearTests()"> Clear tests</button>
+        </div>
+
+    </div>
+
+<script>
+
+    function copy() {
+        var copyText = document.getElementById("ocrtext");
+        var text = copyText.innerText;
+        navigator.clipboard.writeText(text);
+        document.querySelector('#copybtn').innerText = "Copied!";
+    }
+
+
+    {% comment %} function addToTests() {
+        var ocrText = document.getElementById("ocrtext").innerText;
+
+        if (ocrText) {
+            var testsDiv = document.getElementById("tests");
+            var newTest = document.createElement("p");
+            newTest.textContent = ocrText;
+            testsDiv.appendChild(newTest);
+        } {% endcomment %}
+
+function addToTests() {
+    var ocrText = document.getElementById("ocrtext").innerText;
+
+    if (ocrText) {
+        var testsDiv = document.getElementById("tests");
+        var newTest = document.createElement("p");
+        newTest.textContent = ocrText;
+        testsDiv.appendChild(newTest);
+
+        var separator = document.createElement("hr");
+        testsDiv.appendChild(separator);
+        
+        //save to localStorage
+        var tests = JSON.parse(localStorage.getItem('tests') || "[]");
+        tests.push(ocrText);
+        localStorage.setItem('tests', JSON.stringify(tests));
+    }
+}
+
+//load tests from localStorage when the page is loaded
+window.onload = function() {
+    var testsDiv = document.getElementById("tests");
+    var tests = JSON.parse(localStorage.getItem('tests') || "[]");
+
+    for(var i=0; i<tests.length; i++) {
+        var newTest = document.createElement("p");
+        newTest.textContent = tests[i];
+        testsDiv.appendChild(newTest);
+
+        var separator = document.createElement("hr");
+        testsDiv.appendChild(separator);
+    }
+};
+
+function clearTests() {
+    localStorage.removeItem('tests');
+
+    var testsDiv = document.getElementById("tests");
+    while(testsDiv.firstChild) {
+        testsDiv.removeChild(testsDiv.firstChild);
+    }
+
+    var header = document.createElement("h2");
+    header.textContent = "Test Results";
+    testsDiv.appendChild(header);
+  }
+</script>
+
+</script>
+   
+
+
+<style>
+h1{
+    color: white;
+}
+
+
+</style>
+{%endblock%}

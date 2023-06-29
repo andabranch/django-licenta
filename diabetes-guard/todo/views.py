@@ -4,10 +4,6 @@ from .forms import DataForm, DiabetesForm, EditForm, EditDiabetes
 from .models import Data, Diabetes
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column
-from crispy_forms.bootstrap import FormActions
-from .utils import get_decision_tree_data, get_decision_tree_model
 from django.urls import reverse
 from sklearn.tree import export_graphviz
 from sklearn import svm
@@ -36,17 +32,31 @@ def di_form_view(request):
         form = DataForm(request.POST)
         if 'predict' in request.POST:
             if form.is_valid():
-                # Perform the prediction and save the result to the database
+                # perform pred and save to db
                 data = form.save()
-                patient_id = data.id  # Get the ID of the saved patient
-                return redirect('approve', patient_id=patient_id)  # Redirect to the approval page with the patient_id
+                patient_id = data.id  # get id
+                return redirect('approve', patient_id=patient_id) 
         elif 'view-tree' in request.POST:
             if form.is_valid():
-                # Redirect to the view tree page
-                return redirect('dashboard-tree')
+                data = form.save()  
+                patient_id = data.id  
+                return redirect('tree_view', patient_id=patient_id)
     else:
         form = DataForm()
     return render(request, 'dashboard/form_di.html', {'form': form})
+
+@login_required
+def diabetes_form_view(request):
+    if request.method == 'POST':
+        form = DiabetesForm(request.POST)
+        if 'predict' in request.POST:
+            if form.is_valid():
+                diabetes_data = form.save()
+                patient_id = diabetes_data.id  
+                return redirect('approve_diabetes', patient_id=patient_id) 
+    else:
+        form = DiabetesForm()
+    return render(request, 'dashboard/form_diabetes.html', {'form': form})
 
 
 @login_required
@@ -81,16 +91,15 @@ def approve(request, patient_id):
 
     if request.method == 'POST':
         if 'approve' in request.POST:
-            # Perform the approval logic and save the patient to the database
+            #perform approval logic
             patient.archived = False
             patient.save()
-            return redirect('dashboard-predictions')  # Redirect to the all patients page after approval
+            return redirect('dashboard-predictions')  
         elif 'reject' in request.POST:
-            # Mark the patient as rejected (e.g., set a flag)
+            #mark patient as rejected
             patient.rejected = True
             patient.save()
-            return redirect('dashboard-predictions')  # Redirect to the all patients page after rejection
-
+            return redirect('dashboard-predictions') 
     return render(request, 'dashboard/approve.html', {'patient': patient})
 
 def approve_diabetes(request, patient_id):
@@ -100,46 +109,16 @@ def approve_diabetes(request, patient_id):
         return HttpResponse("Patient does not exist.")
 
     if request.method == 'POST':
-        # Process the approval logic
         approved = request.POST.get('approve', False)
         if approved:
-            # Update patient's status or perform other actions
             patient.approved = True
             patient.save()
-        return redirect('dashboard-predictions-diabetes')  # Replace 'dashboard' with your desired URL name
+        return redirect('dashboard-predictions-diabetes') 
 
     context = {
         'patient': patient
     }
     return render(request, 'dashboard/approve_diabetes.html', context)
-
-
-@login_required
-def diabetes_form_view(request):
-    if request.method == 'POST':
-        form = DiabetesForm(request.POST)
-        if 'predict' in request.POST:
-            if form.is_valid():
-                # Perform the prediction and save the result to the database
-                diabetes_data = form.save()
-                patient_id = diabetes_data.id  # Get the ID of the saved patient
-                return redirect('approve_diabetes', patient_id=patient_id)  # Redirect to the approval page with the patient_id
-    else:
-        form = DiabetesForm()
-    return render(request, 'dashboard/form_diabetes.html', {'form': form})
-
-# @login_required
-# def diabetes_form_view(request):
-#     if request.method == 'POST':
-#         form = DiabetesForm(request.POST)
-#         if 'predict' in request.POST:
-#             if form.is_valid():
-#                 # Perform the prediction and save the result to the database
-#                 diabetes_data = form.save()
-#                 return redirect('dashboard-predictions-diabetes')
-#     else:
-#         form = DiabetesForm()
-#     return render(request, 'dashboard/form_diabetes.html', {'form': form})
 
 
 @login_required
@@ -166,6 +145,7 @@ def edit_patient_diabetes(request, pk):
         form = EditDiabetes(instance=patient)
     return render(request, 'dashboard/edit_patient_diabetes.html', {'form': form})
     
+
 @login_required
 def delete_patient(request, pk):
     patient = Data.objects.get(pk=pk)
@@ -179,73 +159,79 @@ def delete_patient_diabetes(request, pk):
     return redirect('dashboard-predictions-diabetes')
 
 
+#archived pages
 @login_required
 def archived_patients(request):
     archived_diagnosis = Data.objects.filter(archived=True)
     return render(request, 'dashboard/archive_di.html', {'archived_diagnosis': archived_diagnosis})
-#good, done
+
 @login_required
 def archived_patients_d(request):
     archived_diagnosis = Diabetes.objects.filter(archived=True)
     return render(request, 'dashboard/archive_diabetes.html', {'archived_diagnosis': archived_diagnosis})
 
+
+#archive ability
 @login_required
 def archive_patient(request, pk):
     patient = get_object_or_404(Data, pk=pk)
     patient.archived = True
     patient.save()
-
     all_patients = Data.objects.filter(archived=False)
     return render(request, 'dashboard/predictions_di.html', {'predicted_diagnosis': all_patients})
 
-@login_required
-def unarchive_patient(request, pk):
-    patient = get_object_or_404(Data, pk=pk)
-    patient.archived = False
-    patient.save()
-
-    all_patients = Data.objects.filter(archived=True)
-    return render(request, 'dashboard/archive_di.html', {'archived_diagnosis': all_patients})
-#diabetes
 @login_required
 def archive_patient_d(request, pk):
     patient = get_object_or_404(Diabetes, pk=pk)
     patient.archived = True
     patient.save()
-
     all_patients = Diabetes.objects.filter(archived=False)
     return render(request, 'dashboard/predictions_diabetes.html', {'predicted_diagnosis': all_patients})
+
+
+#unarchive ability
+@login_required
+def unarchive_patient(request, pk):
+    patient = get_object_or_404(Data, pk=pk)
+    patient.archived = False
+    patient.save()
+    all_patients = Data.objects.filter(archived=True)
+    return render(request, 'dashboard/archive_di.html', {'archived_diagnosis': all_patients})
 
 @login_required
 def unarchive_patient_d(request, pk):
     patient = get_object_or_404(Diabetes, pk=pk)
     patient.archived = False
     patient.save()
-
     all_patients = Diabetes.objects.filter(archived=True)
     return render(request, 'dashboard/archive_diabetes.html', {'archived_diagnosis': all_patients})
 
 
-
 @login_required
-def tree_view(request):
-    return render(request, 'dashboard/tree.html')
+def tree_view(request, patient_id):
+    if request.method == 'POST':
+        form = DataForm(request.POST)
+        if form.is_valid():
+            data = form.save()
+            patient_id = data.id 
+            return redirect('dashboard-predictions', patient_id=patient_id) 
+    else:
+        form = DataForm()
+    return render(request, 'dashboard/tree.html', {'form': form})
+
 
 @login_required
 def definitions(request):
     return render(request, 'dashboard/definition.html')
 
-@login_required
-def image_extraction(request):
-    return render(request, 'dashboard/image_extraction.html')
+
 
 @login_required
 def add_file_view(request):
     if request.method == 'POST':
-        # Get the uploaded file from the request
+        # get uploaded file from the req
         uploaded_file = request.FILES['file']
-
-        # Parse the CSV data into a list of dictionaries
+        # csv data into list of dicts
         data = []
         for line in uploaded_file:
             line = line.decode('utf-8').strip()
@@ -261,16 +247,58 @@ def add_file_view(request):
                     'serum_sodium': fields[6],
                 }
                 data.append(patient)
-
-        # Save each patient to the database
+        # save each patient to db
         for patient in data:
             form = DataForm(data=patient)
             if form.is_valid():
                 form.save()
-
-        # Redirect to the predictions page
         return redirect('dashboard-predictions')
 
     else:
         return render(request, 'dashboard/add_file.html')
+
+
+
+
+import base64
+
+import numpy as np
+import pytesseract
+from django.contrib import messages
+from django.shortcuts import render
+from PIL import Image
+
+pytesseract.pytesseract.tesseract_cmd = (
+    r"C:\Program Files\Tesseract-OCR\tesseract.exe"  
+)
+
+
+import base64
+import pytesseract
+import numpy as np
+from PIL import Image
+
+from django.shortcuts import render
+
+
+def image_extraction(request):
+    if request.method == "POST":
+        try:
+            image = request.FILES["imagefile"]
+            # encode img to base64 string
+            image_base64 = base64.b64encode(image.read()).decode("utf-8")
+        except:
+            messages.add_message(
+                request, messages.ERROR, "No image selected or uploaded"
+            )
+            return render(request, "img_extraction.html")
+        lang = request.POST["language"]
+        img = np.array(Image.open(image))
+        text = pytesseract.image_to_string(img, lang=lang)
+        # return text to html
+        return render(request, "dashboard/img_extraction.html", {"ocr": text, "image": image_base64})
+
+    return render(request, "dashboard/img_extraction.html")
+
+
 

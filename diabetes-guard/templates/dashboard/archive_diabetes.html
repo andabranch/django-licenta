@@ -1,4 +1,3 @@
-<!-- archive_di.html -->
 {% extends 'partials/base.html' %}
 
 {% block title %}Archived Diabetes{% endblock %}
@@ -87,12 +86,6 @@
       if (sortKey === 'name') {
         aValue = a.getElementsByTagName("td")[0].innerText.toLowerCase();
         bValue = b.getElementsByTagName("td")[0].innerText.toLowerCase();
-      } else if (sortKey === 'outcome') {
-        aValue = a.getElementsByTagName("td")[9].innerText.toLowerCase();
-        bValue = b.getElementsByTagName("td")[9].innerText.toLowerCase();
-      } else if (sortKey === 'age') {
-        aValue = a.getElementsByTagName("td")[8].innerText.toLowerCase();
-        bValue = b.getElementsByTagName("td")[8].innerText.toLowerCase();
       } else if (sortKey === 'pregnancies') {
         aValue = a.getElementsByTagName("td")[1].innerText.toLowerCase();
         bValue = b.getElementsByTagName("td")[1].innerText.toLowerCase();
@@ -114,8 +107,13 @@
       } else if (sortKey === 'dpf') {
           aValue = a.getElementsByTagName("td")[7].innerText.toLowerCase();
           bValue = b.getElementsByTagName("td")[7].innerText.toLowerCase();
-    }
-    
+      } else if (sortKey === 'age') {
+        aValue = a.getElementsByTagName("td")[8].innerText.toLowerCase();
+        bValue = b.getElementsByTagName("td")[8].innerText.toLowerCase();
+      } else if (sortKey === 'outcome') {
+        aValue = a.getElementsByTagName("td")[9].innerText.toLowerCase();
+        bValue = b.getElementsByTagName("td")[9].innerText.toLowerCase(); 
+      }
       
       if (aValue < bValue) {
         return -1;
